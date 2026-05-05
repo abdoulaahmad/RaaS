@@ -28,6 +28,8 @@ mod rentlock {
         InsufficientFunds,
     }
 
+    #[derive(Debug, Clone, Copy, scale::Encode, scale::Decode)]
+    #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
     pub struct Listing {
         state: ListingState,
         landlord: AccountId,
