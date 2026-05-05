@@ -24,19 +24,33 @@ jobs:
           targets: wasm32-unknown-unknown
 
       - name: Install cargo-contract
-        run: cargo install cargo-contract --version 4.1.1 --locked
+        run: |
+          echo "Installing cargo-contract 4.1.1..."
+          cargo install cargo-contract --version 4.1.1 --locked
+          echo "Verifying installation..."
+          cargo contract --version
 
       - name: Build relay_proxy contract
         run: |
+          echo "Building relay_proxy..."
           cd contracts/relay_proxy
-          cargo contract build
+          echo "Current directory: $(pwd)"
+          echo "Files: $(ls -la)"
+          cargo contract build --verbose
           echo "✅ relay_proxy compiled successfully"
+          echo "Checking output directory..."
+          ls -la target/ink/relay_proxy/release/ || echo "Output directory not found"
 
       - name: Build rentlock contract
         run: |
+          echo "Building rentlock..."
           cd contracts/rentlock
-          cargo contract build
+          echo "Current directory: $(pwd)"
+          echo "Files: $(ls -la)"
+          cargo contract build --verbose
           echo "✅ rentlock compiled successfully"
+          echo "Checking output directory..."
+          ls -la target/ink/rentlock/release/ || echo "Output directory not found"
 
       - name: Upload relay_proxy artifacts
         uses: actions/upload-artifact@v4
