@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+*.lock
+package-lock.json
+yarn.lock
+
+# Build outputs
+target/
+dist/
+build/
+*.wasm
+*.contract
+
+# Rust
+Cargo.lock
+.cargo/
+
+# Environment
+.env
+.env.local
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db

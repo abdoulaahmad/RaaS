@@ -1,0 +1,69 @@
+name: Build Ink! Contracts
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'contracts/**'
+      - '.github/workflows/build-contracts.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'contracts/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Install cargo-contract
+        run: cargo install cargo-contract --version 4.1.1 --locked
+
+      - name: Build relay_proxy contract
+        run: |
+          cd contracts/relay_proxy
+          cargo contract build
+          echo "✅ relay_proxy compiled successfully"
+
+      - name: Build rentlock contract
+        run: |
+          cd contracts/rentlock
+          cargo contract build
+          echo "✅ rentlock compiled successfully"
+
+      - name: Upload relay_proxy artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: relay_proxy-wasm
+          path: |
+            contracts/relay_proxy/target/ink/relay_proxy/release/relay_proxy.wasm
+            contracts/relay_proxy/target/ink/relay_proxy/release/relay_proxy.contract
+            contracts/relay_proxy/target/ink/relay_proxy/release/metadata.json
+
+      - name: Upload rentlock artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: rentlock-wasm
+          path: |
+            contracts/rentlock/target/ink/rentlock/release/rentlock.wasm
+            contracts/rentlock/target/ink/rentlock/release/rentlock.contract
+            contracts/rentlock/target/ink/rentlock/release/metadata.json
+
+      - name: Create Release Assets (on tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            contracts/relay_proxy/target/ink/relay_proxy/release/relay_proxy.wasm
+            contracts/relay_proxy/target/ink/relay_proxy/release/relay_proxy.contract
+            contracts/relay_proxy/target/ink/relay_proxy/release/metadata.json
+            contracts/rentlock/target/ink/rentlock/release/rentlock.wasm
+            contracts/rentlock/target/ink/rentlock/release/rentlock.contract
+            contracts/rentlock/target/ink/rentlock/release/metadata.json
