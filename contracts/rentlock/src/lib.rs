@@ -8,8 +8,17 @@ mod rentlock {
     ///         ↘             ↘
     ///       Refunded      Disputed → Resolved
 
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
+    #[derive(
+        Debug,
+        Clone,
+        Copy,
+        PartialEq,
+        Eq,
+        scale::Encode,
+        scale::Decode,
+        scale_info::TypeInfo,
+        ink::storage::traits::StorageLayout
+    )]
     pub enum ListingState {
         Created,
         Funded,
@@ -20,8 +29,15 @@ mod rentlock {
         Resolved,
     }
 
-    #[derive(Debug, PartialEq, Eq, scale::Encode, scale::Decode)]
-    #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
+    #[derive(
+        Debug,
+        PartialEq,
+        Eq,
+        scale::Encode,
+        scale::Decode,
+        scale_info::TypeInfo,
+        ink::storage::traits::StorageLayout
+    )]
     pub enum Error {
         InvalidState,
         Unauthorized,
@@ -39,7 +55,6 @@ mod rentlock {
         scale_info::TypeInfo,
         ink::storage::traits::StorageLayout
     )]
-    #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
     pub struct Listing {
         state: ListingState,
         landlord: AccountId,
