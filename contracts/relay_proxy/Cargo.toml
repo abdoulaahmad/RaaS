@@ -2,6 +2,7 @@
 name = "relay_proxy"
 version = "1.0.0"
 edition = "2021"
+authors = ["Abdullahi Ahmad"]
 publish = false
 
 [dependencies]
