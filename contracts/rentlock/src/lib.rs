@@ -17,7 +17,7 @@ mod rentlock {
         scale::Encode,
         scale::Decode,
         scale_info::TypeInfo,
-        ink::storage::traits::StorageLayout
+        ::ink::storage::traits::StorageLayout
     )]
     pub enum ListingState {
         Created,
@@ -36,7 +36,7 @@ mod rentlock {
         scale::Encode,
         scale::Decode,
         scale_info::TypeInfo,
-        ink::storage::traits::StorageLayout
+        ::ink::storage::traits::StorageLayout
     )]
     pub enum Error {
         InvalidState,
@@ -53,7 +53,7 @@ mod rentlock {
         PartialEq,
         Eq,
         scale_info::TypeInfo,
-        ink::storage::traits::StorageLayout
+        ::ink::storage::traits::StorageLayout
     )]
     pub struct Listing {
         state: ListingState,
