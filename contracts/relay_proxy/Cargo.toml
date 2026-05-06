@@ -10,14 +10,10 @@ scale = { package = "parity-scale-codec", version = "3", default-features = fals
 scale-info = { version = "2", default-features = false, features = ["derive"], optional = true }
 
 [lib]
-name = "relay_proxy"
 path = "src/lib.rs"
 
 [profile.release]
-opt-level = "z"
-lto = true
-codegen-units = 1
-strip = true
+overflow-checks = false
 
 [features]
 default = ["std"]
