@@ -28,3 +28,7 @@ std = [
     "scale-info/std",
 ]
 ink-as-dependency = []
+
+[patch.crates-io]
+toml_datetime = "=0.6.3"
+toml_edit = "=0.19.15"
