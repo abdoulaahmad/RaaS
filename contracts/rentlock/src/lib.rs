@@ -234,9 +234,7 @@ mod rentlock {
             }
 
             let caller = self.env().caller();
-            if caller != listing.landlord
-                && listing.tenant.map_or(true, |t| caller != t)
-            {
+            if caller != listing.landlord && listing.tenant != Some(caller) {
                 return Err(Error::Unauthorized);
             }
 
