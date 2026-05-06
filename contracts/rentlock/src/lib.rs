@@ -28,7 +28,17 @@ mod rentlock {
         InsufficientFunds,
     }
 
-    #[derive(Debug, Clone, Copy, scale::Encode, scale::Decode)]
+    #[derive(
+        Debug,
+        Clone,
+        Copy,
+        scale::Encode,
+        scale::Decode,
+        PartialEq,
+        Eq,
+        scale_info::TypeInfo,
+        ink::storage::traits::StorageLayout
+    )]
     #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
     pub struct Listing {
         state: ListingState,
@@ -209,7 +219,9 @@ mod rentlock {
             }
 
             let caller = self.env().caller();
-            if caller != listing.landlord && caller != listing.tenant.unwrap_or_default() {
+            if caller != listing.landlord
+                && listing.tenant.map_or(true, |t| caller != t)
+            {
                 return Err(Error::Unauthorized);
             }
 
